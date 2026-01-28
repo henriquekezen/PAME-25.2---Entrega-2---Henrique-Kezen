@@ -46,6 +46,7 @@ function main() {
                 console.log("0. Sair");
                 console.log("1. Gerenciar Condutores");
                 console.log("2. Relatório Geral de Multas");
+                console.log("3. Ver Meus Dados");
                 
 
                 const opcaoAgente = prompt("Escolha uma opção: ");
@@ -61,6 +62,9 @@ function main() {
                     case "2": 
                         console.log(sistema.verMultas());
                         prompt("Enter para voltar...");
+                        break;
+                    case "3": 
+                        verDadosAgente();
                         break;
                     default:
                         console.log("Opção inválida!");
@@ -167,6 +171,18 @@ function verDados() {
     console.log(`CPF: ${sistema.usuariologado.cpf}`);
     console.log(`Data de Nascimento: ${sistema.usuariologado.nascimento}`);
     console.log(`Email: ${sistema.usuariologado.email}`);
+}
+
+function verDadosAgente() {
+    const agente = sistema.usuariologado;
+    
+    console.log("\n=== DADOS DO AGENTE ===");
+    console.log(`Nome: ${agente.nome}`);
+    console.log(`Matrícula: ${agente.matricula}`); 
+    console.log(`CPF: ${agente.cpf}`);
+    console.log(`Email: ${agente.email}`);
+    
+    prompt("Pressione ENTER para voltar...");
 }
 
 function cadastroveiculos(){
