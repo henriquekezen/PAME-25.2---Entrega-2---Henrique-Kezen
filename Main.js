@@ -4,6 +4,7 @@ const Sistema = require('./Sistema');
 const sistema = new Sistema();
 
 // **DADOS PARA TESTE**
+//(((Agente "hardcoded" para evitar que qualquer um possa cadastrar um novo Agente)))
  
 sistema.cadastroAgente("Agente Henrique", "111.222.333-44", "1", "a", "HK-001");
 sistema.cadastroCondutor("Condutor Henrique", "666.777.888-99", "nasc", "2", "b");
@@ -48,18 +49,19 @@ function main() {
 
                 const opcaoAgente = prompt("Escolha uma opção: ");
                 
-                //Saindo do sistema 
-                if (opcaoAgente === "0") {
-                    sistema.logout();
+
+                switch (opcaoAgente) {
+                    case "0":
+                        sistema.logout()
+                        break;
+                    case "1":
+                        prossegueAgente();
+                        break;
+                    default:
+                        console.log("Opção inválida!");
+
                 }
-
-                // Gerenciando Condutores
-                else if (opcaoAgente === "1") {
-                    // Lista os condutores automaticamente
-                    console.log(sistema.listarCondutores());
-
-
-                    //Prosseguirá se um ID válido for inserido
+                    //Prosseguirá se um ID válido for inserido *** PASSAR PRO PROSSEGUE AGENTE
                     const idCondutor = prompt("Digite o ID do condutor para gerenciar (ou ENTER para voltar): ");
                     const condutorAlvo = sistema.buscarCondutor(idCondutor);
                     if (condutorAlvo) {
@@ -71,10 +73,6 @@ function main() {
                     else if (idCondutor) {
                         console.log("Condutor não encontrado.");
                     }
-                //Saindo do sistema
-                else if (opcaoAgente === "0") {
-                    sistema.logout();
-                }
 
 
                 }
@@ -90,55 +88,32 @@ function main() {
                 console.log("3. Ver meus veículos");
 
                 const opcaoCondutor = prompt("Escolha uma opção: ");
-
-                //Saindo do sistema 
-                if (opcaoCondutor === "0") {
-                    sistema.logout();
-                }
-
-                // Ver meus dados
-                else if (opcaoCondutor === "1") {
-                    console.log("\n** MEUS DADOS **");
-                    console.log(`Nome: ${sistema.usuariologado.nome}`);
-                    console.log(`CPF: ${sistema.usuariologado.cpf}`);
-                    console.log(`Data de Nascimento: ${sistema.usuariologado.nascimento}`);
-                    console.log(`Email: ${sistema.usuariologado.email}`);
-                }
-
-                // Cadastrar veículos
-                else if (opcaoCondutor === "2") {
-                    console.log("\n** CADASTRO DE VEÍCULO **");
-                    const marca = prompt("Marca: ");
-                    const modelo = prompt("Modelo: ");
-                    const cor = prompt("Cor: ");
-                    const placa = prompt("Placa: ");
-
-                    sistema.cadastroVeiculo(placa, modelo, marca, cor);
-
-                    prompt("Pressione ENTER para voltar...");
-                }
-                
-                // Ver meus veículos
-                else if (opcaoCondutor === "3") {
-                    console.log("\n** MEUS VEÍCULOS **");
-                    if (sistema.usuariologado.veiculos.length === 0) {
-                        console.log("Nenhum veículo cadastrado.");
+                    
+                    //Sistema do Condutor
+                    switch (opcaoCondutor) {
+                        case "0":
+                            sistema.logout()
+                            break;
+                        case "1":
+                            verDados();
+                            break;
+                        case "2":
+                            cadastroveiculos()
+                            break;
+                        case "3":
+                            verveiculos()
+                            break;
+                        default:
+                            console.log("Opção inválida!");
                     }
-                    else {
-                        console.log(`${sistema.listarVeiculos()}`);
-                    }
-
-                }
-            }
-
-
-
-
-
-                
+            }   
         }
-    }
 }
+    
+
+
+
+
 
 //**FUNÇÕES SECUNDÁRIAS**
 
@@ -169,6 +144,56 @@ function realizarCadastro() {
     // O método cadastroCondutor já mostra o sucesso no console
     prompt("Pressione ENTER para voltar ...");
 }
+
+function prossegueAgente() {
+    
+        // Lista os condutores automaticamente
+        console.log(sistema.listarCondutores());
+
+
+        //Prosseguirá se um ID válido for inserido
+        const idCondutor = prompt("Digite o ID do condutor para gerenciar (ou ENTER para voltar): ");
+        const condutorAlvo = sistema.buscarCondutor(idCondutor);
+        if (condutorAlvo) {
+        //Ações serão implementadas aqui
+        }
+        else if (idCondutor) {
+            console.log("Condutor não encontrado.");
+        }
+    
+}
+
+function verDados() {
+    console.log("\n** MEUS DADOS **");
+    console.log(`Nome: ${sistema.usuariologado.nome}`);
+    console.log(`CPF: ${sistema.usuariologado.cpf}`);
+    console.log(`Data de Nascimento: ${sistema.usuariologado.nascimento}`);
+    console.log(`Email: ${sistema.usuariologado.email}`);
+}
+
+function cadastroveiculos(){
+    console.log("\n** CADASTRO DE VEÍCULO **");
+    const marca = prompt("Marca: ");
+    const modelo = prompt("Modelo: ");
+    const cor = prompt("Cor: ");
+    const placa = prompt("Placa: ");
+
+    sistema.cadastroVeiculo(placa, modelo, marca, cor);
+
+    prompt("Pressione ENTER para voltar...");
+}
+
+function verveiculos(){
+    console.log("\n** MEUS VEÍCULOS **");
+    if (sistema.usuariologado.veiculos.length === 0) {
+    console.log("Nenhum veículo cadastrado.");
+    }
+    else {
+    console.log(`${sistema.listarVeiculos()}`);
+    }
+    
+}
+
 
 // Inicia o programa
 main();
