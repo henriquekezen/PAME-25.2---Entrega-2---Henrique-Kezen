@@ -47,6 +47,7 @@ function main() {
                 console.log("1. Gerenciar Condutores");
                 console.log("2. Relatório Geral de Multas");
                 console.log("3. Ver Meus Dados");
+                console.log("4. Ver Todos os Veículos Cadastrados");
                 
 
                 const opcaoAgente = prompt("Escolha uma opção: ");
@@ -65,6 +66,10 @@ function main() {
                         break;
                     case "3": 
                         verDadosAgente();
+                        break;
+                    case "4": 
+                        console.log(sistema.listarTodosVeiculos());
+                        prompt("Enter para voltar...");
                         break;
                     default:
                         console.log("Opção inválida!");

@@ -140,6 +140,34 @@ class Sistema {
         return relatorio;
     }
 
+    //LISTAGEM DE VEÍCULOS(serão usados dois loops para criar a lista) 
+    listarTodosVeiculos() {
+
+        let relatorio = "\n=== FROTA CADASTRADA ===\n";
+        let totalVeiculos = 0;
+
+        // 1º Loop: Entra em cada Condutor
+        this.condutores.forEach(condutor => {
+            
+            // Verifica se esse condutor tem carros
+            if (condutor.veiculos.length > 0) {
+                // 2º Loop: Lista os veiculos desse condutor
+                condutor.veiculos.forEach(veiculo => {
+                    relatorio += `${veiculo.marca} ${veiculo.modelo} (${veiculo.cor} - [PLACA: ${veiculo.placa}])\n`;
+                    relatorio += `   Proprietário: ${condutor.nome} (ID: ${condutor.id})\n`; 
+                    relatorio += "----------------------------------\n";
+                    totalVeiculos++;
+                });
+            }
+        });
+
+        if (totalVeiculos === 0) {
+            return "Nenhum veículo foi cadastrado ainda.";
+        }
+
+        return relatorio;
+    }
+
 
     //**MÉTODOS CONDUTOR**/
 
