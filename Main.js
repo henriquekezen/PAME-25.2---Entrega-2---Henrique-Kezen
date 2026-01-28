@@ -61,7 +61,7 @@ function main() {
                         prossegueAgente();
                         break;
                     case "2": 
-                        console.log(sistema.verMultas());
+                        gerenciarMultasGeral();
                         prompt("Enter para voltar...");
                         break;
                     case "3": 
@@ -221,7 +221,7 @@ function menuAcoes(condutor) {
         console.log("0. Voltar");
         console.log("1. Ver Detalhes Completos");
         console.log("2. Aplicar Multa");
-       
+        console.log("3. Ver e alterar multas ")
 
 
         const op = prompt("Opção: ");
@@ -237,7 +237,11 @@ function menuAcoes(condutor) {
 
             case "1":
                 console.log("\n--- MAIS INFORMAÇÕES ---");
-                console.log(condutor);
+                console.log(`Nome: ${condutor.nome}`);
+                console.log(`CPF: ${condutor.cpf}`);
+                console.log(`Nascimento: ${condutor.nascimento}`);
+                console.log(`Email: ${condutor.email}`);
+                console.log(`Veículos cadastrados: ${condutor.veiculos.length}`);
                 prompt("Enter para continuar...");
                 break;
 
@@ -254,6 +258,46 @@ function menuAcoes(condutor) {
                 prompt("Enter para continuar...");
                 break;
 
+            case "3": 
+                console.log(`\n--- MULTAS DE ${condutor.nome} ---`);
+                
+                // Lista as multas do condutor
+                if (condutor.multas.length === 0) {
+                    console.log("Este condutor não possui multas.");
+                } else {
+                    condutor.multas.forEach(m => {
+                        console.log(`[ID: ${m.id}] R$${m.valor} - ${m.tipo} (Status: ${m.status})`);
+                    });
+
+                    // Pede o ID da multa
+                    const idMulta = prompt("\nDigite o ID da multa para alterar (ou ENTER para sair): ");
+
+                    if (idMulta) {
+                        //Menu de Seleção de Status
+                        console.log("\nEscolha o novo status:");
+                        console.log("1. Pendente");
+                        console.log("2. Paga");
+                        console.log("3. Cancelada");
+                        console.log("4. Recorrida");
+                        
+                        const opcaoStatus = prompt("Escolha uma opção: ");
+                        let novoStatus = null;
+                        
+                        switch(opcaoStatus) {
+                            case "1": novoStatus = "Pendente"; break;
+                            case "2": novoStatus = "Paga"; break;
+                            case "3": novoStatus = "Cancelada"; break;
+                            case "4": novoStatus = "Recorrida"; break;
+                            default: console.log("Opção inválida.");
+                        }
+
+                        if (novoStatus) {
+                            sistema.alterarStatusMulta(idMulta, novoStatus);
+                        }
+                    }
+                }
+                prompt("Enter para continuar...");
+                break;
 
             default:
                 console.log("Opção inválida.");
@@ -264,6 +308,57 @@ function menuAcoes(condutor) {
 function exibirMultas() {
     console.log(sistema.verMinhasMultas());
     prompt("Pressione ENTER para voltar...");
+}
+
+//agente pode alterar uma multa também pela lista geral
+function gerenciarMultasGeral() {
+    let noMenuMultas = true;
+
+    while (noMenuMultas) {
+        console.clear();
+        
+        console.log(sistema.verMultas());
+
+        if (sistema.multas.length === 0) {
+            prompt("Pressione ENTER para voltar...");
+            noMenuMultas = false; 
+            break;
+        }
+
+        console.log("\n[Digite o ID da multa para alterar o status ou ENTER para voltar]");
+        const idMulta = prompt("ID da Multa: ");
+
+        if (!idMulta) {
+            // Se apertou Enter vazio, sai do loop
+            noMenuMultas = false;
+        } 
+        else {
+    
+            console.log("\nEscolha uma opção:");
+            console.log("1. Pendente");
+            console.log("2. Paga");
+            console.log("3. Cancelada");
+            console.log("4. Recorrida");
+            
+            const opcaoStatus = prompt("Escolha uma opção: ");
+            let novoStatus = null;
+
+            switch(opcaoStatus) {
+                case "1": novoStatus = "Pendente"; break;
+                case "2": novoStatus = "Paga"; break;
+                case "3": novoStatus = "Cancelada"; break;
+                case "4": novoStatus = "Recorrida"; break;
+                default: console.log("Opção inválida.");
+            }
+
+            if (novoStatus) {
+                sistema.alterarStatusMulta(idMulta, novoStatus);
+                prompt("Enter para continuar...");
+            } else {
+                prompt("Nenhuma alteração feita. Enter para continuar...");
+            }
+        }
+    }
 }
 
 // Inicia o programa

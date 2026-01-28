@@ -169,6 +169,21 @@ class Sistema {
     }
 
 
+    alterarStatusMulta(idMulta, novoStatus) {
+        // Busca a multa na lista geral (que é a mesma referência da lista individual)
+        const multa = this.multas.find(m => m.id === Number(idMulta));
+
+        if (multa) {
+            multa.status = novoStatus;
+            console.log(`\n Status da multa #${idMulta} alterado para "${novoStatus}".`);
+            return true;
+        } else {
+            console.log("ERRO: Multa não encontrada.");
+            return false;
+        }
+    }
+
+
     //**MÉTODOS CONDUTOR**/
 
     cadastroVeiculo(placa, modelo, marca, cor) {
