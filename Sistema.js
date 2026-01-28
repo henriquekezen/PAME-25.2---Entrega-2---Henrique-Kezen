@@ -10,6 +10,7 @@ class Sistema {
         this.agentes = [];
         this.multas = [];
         
+
         // Guarda a situação atual de login
         this.usuariologado = null;
     }
@@ -98,6 +99,34 @@ class Sistema {
     //encontra um condutor referente ao ID
     buscarCondutor(id){
         return this.condutores.find(condutor => condutor.id === Number(id) );
+    }
+
+
+    //**MÉTODOS CONDUTOR**/
+
+    cadastroVeiculo(placa, modelo, marca, cor) {
+
+        const novoVeiculo = new Veiculo(placa, modelo, marca, cor);
+
+        this.usuariologado.veiculos.push(novoVeiculo);
+
+        console.log(`Veículo ${marca} ${modelo} de placa "${placa}" cadastrado .`);
+    }
+    
+    listarVeiculos() {
+
+        //Lista estando vazia retorna a mensagem
+        if (this.usuariologado.veiculos.length === 0) {
+            return "Nenhum veículo cadastrado.";
+        }
+        let controleVeiculos = "\n **MEUS VEÍCULOS** \n";
+
+
+        this.usuariologado.veiculos.forEach(veiculo => {
+            controleVeiculos += `${veiculo.marca} ${veiculo.modelo} ${veiculo.cor} (Placa: ${veiculo.placa})\n`;
+        });
+
+        return controleVeiculos;
     }
 }
 

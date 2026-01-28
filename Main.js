@@ -60,7 +60,7 @@ function main() {
 
 
                     //Prosseguirá se um ID válido for inserido
-                    const idCondutor = prompt("Digite o ID do condutor para gerenciar (ou enter para voltar): ");
+                    const idCondutor = prompt("Digite o ID do condutor para gerenciar (ou ENTER para voltar): ");
                     const condutorAlvo = sistema.buscarCondutor(idCondutor);
                     if (condutorAlvo) {
                         //Ações serão implementadas aqui
@@ -87,6 +87,7 @@ function main() {
                 console.log("0. Sair");
                 console.log("1. Ver meus dados");
                 console.log("2. Cadastrar veículos");
+                console.log("3. Ver meus veículos");
 
                 const opcaoCondutor = prompt("Escolha uma opção: ");
 
@@ -95,6 +96,7 @@ function main() {
                     sistema.logout();
                 }
 
+                // Ver meus dados
                 else if (opcaoCondutor === "1") {
                     console.log("\n** MEUS DADOS **");
                     console.log(`Nome: ${sistema.usuariologado.nome}`);
@@ -103,13 +105,29 @@ function main() {
                     console.log(`Email: ${sistema.usuariologado.email}`);
                 }
 
+                // Cadastrar veículos
                 else if (opcaoCondutor === "2") {
-                    //a ser preenchido
+                    console.log("\n** CADASTRO DE VEÍCULO **");
+                    const marca = prompt("Marca: ");
+                    const modelo = prompt("Modelo: ");
+                    const cor = prompt("Cor: ");
+                    const placa = prompt("Placa: ");
 
+                    sistema.cadastroVeiculo(placa, modelo, marca, cor);
+
+                    prompt("Pressione ENTER para voltar...");
                 }
+                
+                // Ver meus veículos
+                else if (opcaoCondutor === "3") {
+                    console.log("\n** MEUS VEÍCULOS **");
+                    if (sistema.usuariologado.veiculos.length === 0) {
+                        console.log("Nenhum veículo cadastrado.");
+                    }
+                    else {
+                        console.log(`${sistema.listarVeiculos()}`);
+                    }
 
-                else{
-                    console.log("Opção inválida!");
                 }
             }
 
@@ -149,7 +167,7 @@ function realizarCadastro() {
 
     sistema.cadastroCondutor(nome, cpf, nascimento, email, senha);
     // O método cadastroCondutor já mostra o sucesso no console
-    prompt("Pressione ENTER para voltar ao menu...");
+    prompt("Pressione ENTER para voltar ...");
 }
 
 // Inicia o programa
