@@ -42,8 +42,9 @@ function main() {
             //verifica se é agente por meio da existência de matrícula
             if (sistema.usuariologado.matricula) {
                 console.log("**Você está logado como: AGENTE**");
-                console.log("1. Gerenciar Condutores");
                 console.log("0. Sair");
+                console.log("1. Gerenciar Condutores");
+                
 
                 const opcaoAgente = prompt("Escolha uma opção: ");
                 
@@ -80,6 +81,43 @@ function main() {
 
      
             }
+            //Se está logado e não é agente, é condutor
+            else{
+                console.log("**Você está logado como: CONDUTOR**");
+                console.log("0. Sair");
+                console.log("1. Ver meus dados");
+                console.log("2. Cadastrar veículos");
+
+                const opcaoCondutor = prompt("Escolha uma opção: ");
+
+                //Saindo do sistema 
+                if (opcaoCondutor === "0") {
+                    sistema.logout();
+                }
+
+                else if (opcaoCondutor === "1") {
+                    console.log("\n** MEUS DADOS **");
+                    console.log(`Nome: ${sistema.usuariologado.nome}`);
+                    console.log(`CPF: ${sistema.usuariologado.cpf}`);
+                    console.log(`Data de Nascimento: ${sistema.usuariologado.nascimento}`);
+                    console.log(`Email: ${sistema.usuariologado.email}`);
+                }
+
+                else if (opcaoCondutor === "2") {
+                    //a ser preenchido
+
+                }
+
+                else{
+                    console.log("Opção inválida!");
+                }
+            }
+
+
+
+
+
+                
         }
     }
 }
@@ -95,7 +133,8 @@ function realizarLogin() {
     
     if (tipo) {
         console.log(`Login realizado com sucesso! Bem-vindo, ${tipo}.`);
-    } else {
+    } 
+    else {
         console.log("ERRO: Email ou senha incorretos.");
     }
 }
