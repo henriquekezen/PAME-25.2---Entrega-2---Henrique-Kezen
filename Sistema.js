@@ -101,6 +101,45 @@ class Sistema {
         return this.condutores.find(condutor => condutor.id === Number(id) );
     }
 
+    aplicarMulta(condutorAlvo, tipo, valor, data) {
+        // Gera ID único para a multa
+        const idMulta = this.multas.length + 1;
+       
+        // Cria a multa (Status inicial: "Pendente")
+        const novaMulta = new Multa(idMulta, condutorAlvo.id, tipo, valor, data, "Pendente");
+
+
+        // Salva na lista GERAL do sistema
+        this.multas.push(novaMulta);
+
+
+        // Salva na lista PESSOAL do condutor
+        condutorAlvo.multas.push(novaMulta);
+
+
+        console.log(`\nSUCESSO: Multa #${idMulta} aplicada ao condutor ${condutorAlvo.nome}.`);
+    }
+
+    verMultas() {
+        if (this.multas.length === 0) {
+            return "Nenhuma multa registrada no sistema.";
+        }
+
+        let relatorio = "\n=== RELATÓRIO GERAL DE INFRAÇÕES ===\n";
+        
+        this.multas.forEach(multa => {
+            // Tenta achar o nome do condutor pelo ID
+            const nomeCondutor = this.condutores.find(c => c.id === multa.idCondutor)?.nome || "Desconhecido";
+            
+            relatorio += `[ID: ${multa.id}] Data: ${multa.data} | Valor: R$${multa.valor} | Status: ${multa.status}\n`;
+            relatorio += `       Motivo: ${multa.tipo}\n`;
+            relatorio += `       Infrator: ${nomeCondutor}\n`;
+            relatorio += "------------------------------------------------\n";
+        });
+
+        return relatorio;
+    }
+
 
     //**MÉTODOS CONDUTOR**/
 
@@ -128,6 +167,36 @@ class Sistema {
 
         return controleVeiculos;
     }
+
+    verMinhasMultas() {
+
+        const minhasMultas = this.usuariologado.multas;
+
+        if (minhasMultas.length === 0) {
+            return "Parabéns! Você não possui multas.";
+        }
+
+        let relatorio = "\n=== MINHAS MULTAS ===\n";
+        
+        minhasMultas.forEach(multa => {
+            relatorio += `Data: ${multa.data} | Valor: R$${multa.valor} | Status: ${multa.status}\n`;
+            relatorio += `Motivo: ${multa.tipo}\n`;
+            relatorio += "------------------------------\n";
+        });
+
+        return relatorio;
+    }
+
+
+    
+
+
+
+
+
+
+
+
 }
 
 module.exports = Sistema;

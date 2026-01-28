@@ -37,7 +37,7 @@ function main() {
         } 
         else if (sistema.usuariologado !== null) {
             // Se o usuário estiver logado, mostra o seu menu
-            // Por enquanto, mostra apenas quem é e dá a opção de sair
+            
             console.log(`\n=== BEM-VINDO, ${sistema.usuariologado.nome} ===`);
 
             //verifica se é agente por meio da existência de matrícula
@@ -45,6 +45,7 @@ function main() {
                 console.log("**Você está logado como: AGENTE**");
                 console.log("0. Sair");
                 console.log("1. Gerenciar Condutores");
+                console.log("2. Relatório Geral de Multas");
                 
 
                 const opcaoAgente = prompt("Escolha uma opção: ");
@@ -57,28 +58,18 @@ function main() {
                     case "1":
                         prossegueAgente();
                         break;
+                    case "2": 
+                        console.log(sistema.verMultas());
+                        prompt("Enter para voltar...");
+                        break;
                     default:
                         console.log("Opção inválida!");
 
                 }
-                    //Prosseguirá se um ID válido for inserido *** PASSAR PRO PROSSEGUE AGENTE
-                    const idCondutor = prompt("Digite o ID do condutor para gerenciar (ou ENTER para voltar): ");
-                    const condutorAlvo = sistema.buscarCondutor(idCondutor);
-                    if (condutorAlvo) {
-                        //Ações serão implementadas aqui
-
-
-
-                    }
-                    else if (idCondutor) {
-                        console.log("Condutor não encontrado.");
-                    }
-
-
-                }
+               }
 
      
-            }
+            
             //Se está logado e não é agente, é condutor
             else{
                 console.log("**Você está logado como: CONDUTOR**");
@@ -86,6 +77,7 @@ function main() {
                 console.log("1. Ver meus dados");
                 console.log("2. Cadastrar veículos");
                 console.log("3. Ver meus veículos");
+                console.log("4. Ver minhas multas");
 
                 const opcaoCondutor = prompt("Escolha uma opção: ");
                     
@@ -103,10 +95,13 @@ function main() {
                         case "3":
                             verveiculos()
                             break;
+                        case "4":
+                            exibirMultas();
                         default:
                             console.log("Opção inválida!");
                     }
-            }   
+            }
+        }     
         }
 }
     
@@ -155,11 +150,14 @@ function prossegueAgente() {
         const idCondutor = prompt("Digite o ID do condutor para gerenciar (ou ENTER para voltar): ");
         const condutorAlvo = sistema.buscarCondutor(idCondutor);
         if (condutorAlvo) {
-        //Ações serão implementadas aqui
+            menuAcoes(condutorAlvo);
         }
         else if (idCondutor) {
             console.log("Condutor não encontrado.");
+            prompt("Enter para continuar...");
         }
+
+
     
 }
 
@@ -194,6 +192,58 @@ function verveiculos(){
     
 }
 
+function menuAcoes(condutor) {
+    let noSubMenu = true;
+   
+    while (noSubMenu) {
+        console.log(`\n=== GERENCIANDO: ${condutor.nome.toUpperCase()} (ID: ${condutor.id}) ===`);
+        console.log("0. Voltar");
+        console.log("1. Ver Detalhes Completos");
+        console.log("2. Aplicar Multa");
+       
+
+
+        const op = prompt("Opção: ");
+
+
+        switch (op) {
+
+
+            case "0":
+                noSubMenu = false; // volta para o menu do Agente
+                break;
+
+
+            case "1":
+                console.log("\n--- MAIS INFORMAÇÕES ---");
+                console.log(condutor);
+                prompt("Enter para continuar...");
+                break;
+
+
+            case "2":
+                console.log("\n--- APLICAR MULTA ---");
+                const motivo = prompt("Motivo: ");
+                const valor = prompt("Valor (R$): ");
+                const data = prompt("Data: ")
+           
+                sistema.aplicarMulta(condutor, motivo, valor,data);
+
+
+                prompt("Enter para continuar...");
+                break;
+
+
+            default:
+                console.log("Opção inválida.");
+        }
+    }
+}
+
+function exibirMultas() {
+    console.log(sistema.verMinhasMultas());
+    prompt("Pressione ENTER para voltar...");
+}
 
 // Inicia o programa
 main();
