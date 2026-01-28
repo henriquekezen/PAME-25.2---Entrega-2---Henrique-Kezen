@@ -305,10 +305,68 @@ function menuAcoes(condutor) {
     }
 }
 
+//função do condutor para ver suas multas
 function exibirMultas() {
-    console.log(sistema.verMinhasMultas());
-    prompt("Pressione ENTER para voltar...");
+    let noMenu = true;
+
+    while (noMenu) {
+        console.clear();
+        //Mostra a lista 
+        console.log(sistema.verMinhasMultas());
+
+        // Se a lista estiver vazia ou com erro, encerra aqui
+        if (!sistema.usuariologado.multas || sistema.usuariologado.multas.length === 0) {
+            prompt("Pressione ENTER para voltar...");
+            noMenu = false;
+            break;
+        }
+
+        
+        console.log("\n[Digite o ID da multa ou ENTER para voltar]");
+        const idInput = prompt("ID da Multa: ");
+
+        if (!idInput) {
+            noMenu = false; 
+        } 
+        else {
+            //Verifica se a multa pertence a este condutor
+            const minhaMulta = sistema.usuariologado.multas.find(m => m.id === Number(idInput));
+
+
+            if (!minhaMulta) {
+                console.log("Essa multa não existe ou não pertence a você.");
+                prompt("Enter para voltar...");
+            } 
+            else {
+                console.log("\n--- RESOLVER PENDÊNCIA ---");
+                console.log(`Multa Selecionada: ${minhaMulta.tipo} (R$ ${minhaMulta.valor})`);
+                console.log("1. PAGAR");
+                console.log("2. RECORRER");
+                const acaomulta = prompt("Escolha uma opção: ");
+                
+                switch (acaomulta){
+                    case "1":
+                        sistema.alterarStatusMulta(idInput, "Paga");
+                        console.log("\n✅ MULTA PAGA COM SUCESSO.");
+                        prompt("Pressione ENTER para atualizar a lista...");
+                        break;
+                    case "2":
+                        sistema.alterarStatusMulta(idInput, "Recorrida");
+                    
+                        console.log("\n⚠️ PROCESSO INICIADO: Multa Recorrida.");
+                        prompt("Pressione ENTER para atualizar a lista...");
+                        break;
+                    default:
+                        console.log("Opção inválida ");
+                        prompt("Enter pra voltar... ");
+                        break;
+                }
+                }
+        }
+
 }
+}
+
 
 //agente pode alterar uma multa também pela lista geral
 function gerenciarMultasGeral() {
@@ -359,7 +417,8 @@ function gerenciarMultasGeral() {
             }
         }
     }
-}
+    }
+
 
 // Inicia o programa
 main();

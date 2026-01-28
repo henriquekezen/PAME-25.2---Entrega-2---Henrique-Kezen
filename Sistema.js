@@ -222,7 +222,7 @@ class Sistema {
         let relatorio = "\n=== MINHAS MULTAS ===\n";
         
         minhasMultas.forEach(multa => {
-            relatorio += `Data: ${multa.data} | Valor: R$${multa.valor} | Status: ${multa.status}\n`;
+            relatorio += `Data: ${multa.data} | Valor: R$${multa.valor} | Status: ${multa.status} | ID: ${multa.id} \n`;
             relatorio += `Motivo: ${multa.tipo}\n`;
             relatorio += "------------------------------\n";
         });
