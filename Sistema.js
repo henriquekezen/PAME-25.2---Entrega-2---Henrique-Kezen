@@ -76,6 +76,34 @@ class Sistema {
         this.usuariologado = null;
         console.log("Logout realizado com sucesso.");
     }
+
+
+    //**MÉTODOS AGENTE**/
+
+    listarCondutores() {
+
+        //Lista estando vazia retorna a mensagem
+        if (this.condutores.length === 0) {
+           return "Nenhum condutor cadastrado.";    
+        }
+
+        let controlecondutores = "\n **LISTA DE CONDUTORES** \n";
+
+       this.condutores.forEach(condutor => {
+            controlecondutores += `${condutor.nome} [ID: ${condutor.id}]\n`;
+        });
+        return controlecondutores;   
+    }
+    
+    //encontra um condutor referente ao ID
+    buscarCondutor(id){
+        return this.condutores.find(condutor => condutor.id === Number(id) );
+    }
 }
 
 module.exports = Sistema;
+
+
+
+
+

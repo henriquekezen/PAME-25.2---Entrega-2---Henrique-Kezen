@@ -10,7 +10,7 @@ class Agente {
         this.matricula = matricula;
     }
 
-    verificacao(trysenha){
+    verificação(trysenha){
         return this.#senha === trysenha;
     }
 }

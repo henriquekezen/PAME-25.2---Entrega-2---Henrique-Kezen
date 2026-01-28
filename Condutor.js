@@ -17,7 +17,8 @@ class Condutor {
     }
 
     adicionarVeiculo(veiculo) {
-        this.veiculo.push(veiculo)
+        this.veiculos.push(veiculo)
     }
 }
+
 module.exports = Condutor;

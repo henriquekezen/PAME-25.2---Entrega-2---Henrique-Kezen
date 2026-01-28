@@ -4,8 +4,9 @@ const Sistema = require('./Sistema');
 const sistema = new Sistema();
 
 // **DADOS PARA TESTE**
-//Agente  
-sistema.cadastroAgente("Agente Henrique", "111.222.333-44", "admin@detran.com", "FFC1902", "HK-001");
+ 
+sistema.cadastroAgente("Agente Henrique", "111.222.333-44", "1", "a", "HK-001");
+sistema.cadastroCondutor("Condutor Henrique", "666.777.888-99", "nasc", "2", "b");
 
 
 // **FUNÇÃO PRINCIPAL**
@@ -33,22 +34,52 @@ function main() {
                     console.log("Opção inválida!");
             }
         } 
-        else {
+        else if (sistema.usuariologado !== null) {
             // Se o usuário estiver logado, mostra o seu menu
             // Por enquanto, mostra apenas quem é e dá a opção de sair
             console.log(`\n=== BEM-VINDO, ${sistema.usuariologado.nome} ===`);
-            console.log("1. Ver Meus Dados");
-            console.log("0.Sair ");
 
-            const opcaoLogado = prompt("Escolha uma opção: "); 
+            //verifica se é agente por meio da existência de matrícula
+            if (sistema.usuariologado.matricula) {
+                console.log("**Você está logado como: AGENTE**");
+                console.log("1. Gerenciar Condutores");
+                console.log("0. Sair");
 
-            if (opcaoLogado === "0") {
-                sistema.logout(); // Isso faz usuario virar null, voltando pro menu principal
-            } else if (opcaoLogado === "1") {
-                console.log(sistema.usuariologado);
-            } else {
-                console.log("Opção inválida.");
-            }            
+                const opcaoAgente = prompt("Escolha uma opção: ");
+                
+                //Saindo do sistema 
+                if (opcaoAgente === "0") {
+                    sistema.logout();
+                }
+
+                // Gerenciando Condutores
+                else if (opcaoAgente === "1") {
+                    // Lista os condutores automaticamente
+                    console.log(sistema.listarCondutores());
+
+
+                    //Prosseguirá se um ID válido for inserido
+                    const idCondutor = prompt("Digite o ID do condutor para gerenciar (ou enter para voltar): ");
+                    const condutorAlvo = sistema.buscarCondutor(idCondutor);
+                    if (condutorAlvo) {
+                        //Ações serão implementadas aqui
+
+
+
+                    }
+                    else if (idCondutor) {
+                        console.log("Condutor não encontrado.");
+                    }
+                //Saindo do sistema
+                else if (opcaoAgente === "0") {
+                    sistema.logout();
+                }
+
+
+                }
+
+     
+            }
         }
     }
 }
