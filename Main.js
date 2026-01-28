@@ -48,6 +48,7 @@ function main() {
                 console.log("2. Relatório Geral de Multas");
                 console.log("3. Ver Meus Dados");
                 console.log("4. Ver Todos os Veículos Cadastrados");
+                console.log("5. Buscar Veículo por Placa");
                 
 
                 const opcaoAgente = prompt("Escolha uma opção: ");
@@ -71,6 +72,10 @@ function main() {
                         console.log(sistema.listarTodosVeiculos());
                         prompt("Enter para voltar...");
                         break;
+                    case "5":
+                        menuBuscaPlaca(); 
+                        break;
+                    
                     default:
                         console.log("Opção inválida!");
 
@@ -418,6 +423,31 @@ function gerenciarMultasGeral() {
         }
     }
     }
+
+function menuBuscaPlaca() {
+    console.clear();
+    console.log("\n=== CONSULTA DE PLACA ===");
+    const placa = prompt("Digite a placa para pesquisar: ");
+
+    const resultado = sistema.buscarPorPlaca(placa);
+
+    if (resultado.sucesso) {
+        const v = resultado.carro;
+        const dono = resultado.dono;
+
+        console.log("\n VEÍCULO LOCALIZADO!");
+        console.log("--------------------------------");
+        console.log(`Veículo: ${v.marca} ${v.modelo} | Cor: ${v.cor} | Placa: ${v.placa.toUpperCase()}`);
+        console.log("--------------------------------");
+        console.log(`PROPRIETÁRIO: ${dono.nome}`);
+        console.log(`CPF: ${dono.cpf}`);
+        console.log(`Status Carteira: ${dono.multas.length > 0 ? " Possui Multas" : "Regular"}`);
+    } else {
+        console.log("\n Veículo não encontrado no sistema.");
+    }
+
+    prompt("Pressione ENTER para voltar...");
+}
 
 
 // Inicia o programa

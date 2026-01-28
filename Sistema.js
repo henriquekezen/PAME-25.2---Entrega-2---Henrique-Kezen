@@ -183,6 +183,26 @@ class Sistema {
         }
     }
 
+    buscarPorPlaca(placaBusca) {
+        // Percorre cada condutor cadastrado no sistema
+        for (const condutor of this.condutores) {
+            
+            // Tenta encontrar o veículo dentro da lista deste condutor
+            // (Compara transformando tudo em maiúsculo para evitar erro de digitação)
+            const veiculoEncontrado = condutor.veiculos.find(v => v.placa.toUpperCase() === placaBusca.toUpperCase());
+
+            if (veiculoEncontrado) {
+                // Se achou, retorna um objeto com tudo que o agente precisa saber
+                return {
+                    sucesso: true,
+                    carro: veiculoEncontrado,
+                    dono: condutor
+                };
+            }
+        }
+
+        return { sucesso: false };
+    }
 
     //**MÉTODOS CONDUTOR**/
 
