@@ -58,6 +58,7 @@ function main() {
                 console.log("3. Ver Meus Dados");
                 console.log("4. Ver Todos os Veículos Cadastrados");
                 console.log("5. Buscar Veículo por Placa");
+                console.log("6. Editar Meus Dados");
                 
 
                 const opcaoAgente = prompt("Escolha uma opção: ");
@@ -84,6 +85,9 @@ function main() {
                     case "5":
                         menuBuscaPlaca(); 
                         break;
+                    case "6":
+                        menuEditarDados();
+                        break;
                     
                     default:
                         console.log("Opção inválida!");
@@ -101,6 +105,7 @@ function main() {
                 console.log("2. Cadastrar veículos");
                 console.log("3. Ver meus veículos");
                 console.log("4. Ver minhas multas");
+                console.log("5. Editar Meus Dados");
 
                 const opcaoCondutor = prompt("Escolha uma opção: ");
                     
@@ -120,6 +125,10 @@ function main() {
                             break;
                         case "4":
                             exibirMultas();
+                            break;
+                        case "5":
+                            menuEditarDados();
+                            break;
                         default:
                             console.log("Opção inválida!");
                     }
@@ -456,6 +465,30 @@ function menuBuscaPlaca() {
         console.log("\n Veículo não encontrado no sistema.");
     }
 
+    prompt("Pressione ENTER para voltar...");
+}
+
+function menuEditarDados() {
+    const usuario = sistema.usuariologado;
+    console.clear();
+    console.log("\n=== ATUALIZAR CADASTRO ===");
+    console.log("Pressione ENTER para manter o valor atual.");
+    console.log("--------------------------------------------------------------------");
+
+    // Mostra o valor atual entre colchetes 
+    const novoNome = prompt(`Nome [${usuario.nome}]: `);
+    const novoEmail = prompt(`Email [${usuario.email}]: `);
+    
+
+    console.log("\nTem certeza que deseja salvar as alterações? (S/N)");
+    const confirmar = prompt(": ");
+
+    if (confirmar.toUpperCase() === "S") {
+        sistema.editarDadosCadastrais(novoNome, novoEmail);
+        console.log("\n Dados atualizados com sucesso!");
+    } else {
+        console.log("\nOperação cancelada.");
+    }
     prompt("Pressione ENTER para voltar...");
 }
 

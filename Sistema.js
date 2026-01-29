@@ -15,6 +15,20 @@ class Sistema {
         this.usuariologado = null;
     }
 
+    //**EDIÇÂO **
+    editarDadosCadastrais(novoNome, novoEmail) {
+        const usuario = this.usuariologado;
+
+        if (!usuario) return false;
+
+        //Só atualiza se o campo não estiver vazio
+        if (novoNome !== "") usuario.nome = novoNome;
+        if (novoEmail !== "") usuario.email = novoEmail;
+        
+
+        return true;
+    }
+
 
     // **CADASTRO**
         
