@@ -15,6 +15,7 @@ class Sistema {
         this.usuariologado = null;
     }
 
+
     // **CADASTRO**
         
     // Cadastra um condutor 
@@ -221,7 +222,7 @@ class Sistema {
         if (this.usuariologado.veiculos.length === 0) {
             return "Nenhum veículo cadastrado.";
         }
-        let controleVeiculos = "\n **MEUS VEÍCULOS** \n";
+        let controleVeiculos = "________\n";
 
 
         this.usuariologado.veiculos.forEach(veiculo => {
@@ -235,9 +236,7 @@ class Sistema {
 
         const minhasMultas = this.usuariologado.multas;
 
-        if (minhasMultas.length === 0) {
-            return "Parabéns! Você não possui multas.";
-        }
+
 
         let relatorio = "\n=== MINHAS MULTAS ===\n";
         

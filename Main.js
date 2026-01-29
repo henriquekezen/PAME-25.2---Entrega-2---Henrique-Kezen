@@ -6,8 +6,17 @@ const sistema = new Sistema();
 // **DADOS PARA TESTE**
 //(((Agente "hardcoded" para evitar que qualquer um possa cadastrar um novo Agente)))
  
-sistema.cadastroAgente("Agente Henrique", "111.222.333-44", "1", "a", "HK-001");
-sistema.cadastroCondutor("Condutor Henrique", "666.777.888-99", "nasc", "2", "b");
+sistema.cadastroAgente("Agente Henrique", "111.222.333-44", "henriquekezen.20251@poli.ufrj.br", "FFC1902", "HK-001");
+sistema.cadastroAgente("Agente Mateus", "111.222.333-40", "a1", "FFC1902", "HK-001");
+sistema.cadastroAgente("Agente Jose", "111.222.333-41", "a2", "FFC1902", "HK-001");
+sistema.cadastroAgente("Agente Joao", "111.222.333-42", "a3", "FFC1902", "HK-001");
+sistema.cadastroAgente("Agente Felipe", "111.222.333-42", "a4", "FFC1902", "HK-001");
+
+sistema.cadastroCondutor("Condutor Henrique", "666.777.888-99", "08/01/20007", "henriquekezenleite@gmail.com", "FFC1902");
+sistema.cadastroCondutor("Condutor Mateus", "666.777.888-90", "08/01/20007", "c1", "FFC1902");
+sistema.cadastroCondutor("Condutor Jose", "666.777.888-91", "08/01/20007", "c2", "FFC1902");
+sistema.cadastroCondutor("Condutor Joao", "666.777.888-92", "08/01/20007", "c3", "FFC1902");
+sistema.cadastroCondutor("Condutor Felipe", "666.777.888-93", "08/01/20007", "c4", "FFC1902");
 
 
 // **FUNÇÃO PRINCIPAL**
@@ -321,6 +330,7 @@ function exibirMultas() {
 
         // Se a lista estiver vazia ou com erro, encerra aqui
         if (!sistema.usuariologado.multas || sistema.usuariologado.multas.length === 0) {
+            console.log("Parabéns! Você não possui multas.")
             prompt("Pressione ENTER para voltar...");
             noMenu = false;
             break;
